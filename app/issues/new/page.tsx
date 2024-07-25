@@ -20,10 +20,24 @@ type IssueForm=z.infer<typeof createIssueSchema>;
 
 export default function NewIssuesPage() {
 
+    
     const {register,control,handleSubmit,formState:{errors,isSubmitting}}=useForm<IssueForm>({
         resolver:zodResolver(createIssueSchema)
     });
     const [error,setError]=useState('')
+
+    const onSubmit=handleSubmit(async(data)=>{
+        try {
+        
+            await axios.post("/api/issues",data)
+            router.push("/issues")
+            
+        } catch (error) {
+          
+            setError('An unexpected error occurred.')
+        }
+    }
+        )
 
    const router=useRouter();
   return (
@@ -36,20 +50,7 @@ export default function NewIssuesPage() {
         }
     <form
         className='space-y-5'
-        onSubmit={
-            handleSubmit(async(data)=>{
-                try {
-                
-                    await axios.post("/api/issues",data)
-                    router.push("/issues")
-                    
-                } catch (error) {
-                  
-                    setError('An unexpected error occurred.')
-                }
-            }
-                )
-        }
+        onSubmit={onSubmit}
         >
       <TextField.Root>
         <TextField.Input placeholder='Title' {...register('title')}/>
