@@ -3,10 +3,13 @@ import React from 'react'
 
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css'
+import IssueActions from './IssueActions';
 export default function LoadingIssuePage() {
 
     const issues=[1,2,3,4,5]
   return (
+    <div>
+        <IssueActions />
     <Table.Root variant='surface'> 
     <Table.Header>
       <Table.Row>
@@ -32,5 +35,6 @@ export default function LoadingIssuePage() {
 
 
   </Table.Root>
+  </div>
   )
 }

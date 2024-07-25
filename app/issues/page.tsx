@@ -4,6 +4,7 @@ import Link from 'next/link'
 import prisma from '@/prisma/client'
 import IssueStatusBadge from '../components/IssueStatusBadge';
 import delay from 'delay'
+import IssueActions from './IssueActions';
 
 export default async function IssuesPage() {
 
@@ -11,12 +12,7 @@ export default async function IssuesPage() {
   await delay(3000)
   return (
     <div>
-    <div className='mb-5'>
-      <Button>
-        <Link href="/issues/new">Create New Issue</Link>
-        </Button>
-
-    </div>
+      <IssueActions />
     <Table.Root variant='surface'> 
       <Table.Header>
         <Table.Row>
@@ -30,7 +26,11 @@ export default async function IssuesPage() {
       {
         issues.map((issue)=>(
           <Table.Row key={issue.id}>
-            <Table.Cell>{issue.title}</Table.Cell>
+            <Table.Cell>
+              <Link href={`/issues/${issue.id}`}>
+              {issue.title}
+              </Link>
+              </Table.Cell>
             <Table.Cell><IssueStatusBadge status={issue.status}/></Table.Cell>
             <Table.Cell>{issue.createdAt.toDateString()}</Table.Cell>
 
